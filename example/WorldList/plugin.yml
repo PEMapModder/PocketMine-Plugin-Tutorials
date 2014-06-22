@@ -3,3 +3,8 @@ version: 0.1.0
 api: [1.0.0]
 main: worldlist\Main
 load: POSTWORLD
+commands:
+  worldlist:
+    description: View a list of players in a world
+    usage: /worldlist [world]
+    aliases: [wl]
