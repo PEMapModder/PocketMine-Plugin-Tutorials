@@ -8,3 +8,11 @@ commands:
     description: View a list of players in a world
     usage: /worldlist [world]
     aliases: [wl]
+    permission: worldlist.cmd
+permissions:
+  worldlist:
+    description: Allow using everything in WorldList
+    children:
+      worldlist.cmd:
+        description: Allow using the command /worldlist
+        default: true
