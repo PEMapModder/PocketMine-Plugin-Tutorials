@@ -3,4 +3,5 @@ respawn position:
   "x": 128
   "y": 75
   "z": 128
+  world: world
 ...
