@@ -6,6 +6,7 @@ use pocketmine\event\player\PlayerRespawnEvent;
 use pocketmine\level\Level;
 use pocketmine\level\Position;
 use pocketmine\plugin\PluginBase;
+use pocketmine\utils\TextFormat;
 
 class Main extends PluginBase{
 	private $respawnPosition;
@@ -25,7 +26,7 @@ class Main extends PluginBase{
 			$levelObject = $this->getServer()->getLevelByName($level); // try to get the object again
 			if(!($levelObject instanceof Level)){
 				// uh-oh, the level is still not loaded
-				$this->getLogger()->critical("Unable to load level \"$level\"!"); // send console a message that the level cannot be loaded
+				$this->getLogger()->critical("Unable to load level ".TextFormat::YELLOW.$level.TextFormat::RED."!"); // send console a message that the level cannot be loaded
 				$this->setEnabled(false); // commit suicide! Disable yoruself!
 				return;
 			}
