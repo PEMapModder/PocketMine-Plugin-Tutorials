@@ -21,6 +21,6 @@ class Main extends PluginBase{
 		$this->respawnPosition = new Position($x, $y, $z, $levelObject);
 	}
 	public function onRespawn(PlayerRespawnEvent $event){
-		$event->setRespawnPosition(new Position($x, $y, $z, $level));
+		$event->setRespawnPosition($this->respawnPosition);
 	}
 }
