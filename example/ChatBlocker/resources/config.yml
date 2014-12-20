@@ -18,4 +18,6 @@ actions: # when a message matches one of the above...
 kick message: you asked for op
 ban message: you asked for op
 warning message: your message was blocked because you asked for op.
+console format: "@player said \"$message\" and the message was blocked"
+moderator format: "@player said \"$message\" and the message was blocked"
 ...
