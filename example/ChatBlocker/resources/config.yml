@@ -1,0 +1,17 @@
+---
+phrases: # phrases to be detected in the chat message, case-insensitive
+  - op me
+regular expressions: # regular expressions to be matched
+  - #give me op#i
+actions: # when a message matches one of the above...
+# options:
+# "block": don't let the message be sent
+# "send warning": send the player a warning message
+# "kick": kick the player from the server with reason specified below
+# "ban": ban the player from the servwe with reason specified below
+# "tell console": send a message to console about this
+# "tell moderators": send a message to players that have the permission chatblocker.moderate
+  - block
+  - tell console
+  - tell moderators
+...
