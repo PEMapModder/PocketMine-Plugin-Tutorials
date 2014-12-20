@@ -15,27 +15,31 @@ class ChatBlocker extends PluginBase implements Listener{
 	public function onChat(PlayerChatEvent $evt){
 		$player = $evt->getPlayer();
 		if($player->hasPermission("chatblocker.bypass")){
-			return;
+			return; // don't execute if the player has bypasd permission
 		}
 		$message = $evt->getMessage();
-		if($this->matches($message)){
-			$this->executeOn($evt);
+		if($this->matches($message)){ // if the message matches the expressions
+			$this->executeOn($evt); // execute the actions on the player
 		}
 	}
 	public function matches($message){	
-		foreach($this->getConfig()->get("phrases") as $phrase){
-			if(stripos($message, $phrase) !== false){
-				return true;
+		foreach($this->getConfig()->get("phrases") as $phrase){ // for each phrase,
+			if(stripos($message, $phrase) !== false){ // if the message case-insensitively contains the phrase,
+				return true; // return a result of true; no need to check any other phrases or expressions because we are only interested in whether the message matches, not how many phrases/expressions it matches.
 			}
 		}
-		foreach($this->getConfig()->get("regular expressions") as $regex){
-			if(preg_match($regex, $message)){
-				return true;
+		foreach($this->getConfig()->get("regular expressions") as $regex){ // for each RegExp,
+			if(preg_match($regex, $message)){ // execute a PCRE check on it. If the number of checks is not zero (i.e. matched),
+				return true; // stop executing and return a result of true
 			}
 		}
-		return false;
+		return false; // if the function goes to this point, it means that it never matched anything, or else it would have returned true. So, return false.
 	}
 	public function executeOn(PlayerChatEvent $e){
-		// TODO
+		foreach($this->getConfig()->get("actions") as $action){ // execute actions one by one
+			switch($action){
+				
+			}
+		}
 	}
 }
