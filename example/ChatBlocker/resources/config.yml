@@ -14,4 +14,7 @@ actions: # when a message matches one of the above...
   - block
   - tell console
   - tell moderators
+kick message: you asked for op
+ban message: you asked for op
+warning message: your message was blocked because you asked for op.
 ...
