@@ -1,0 +1,11 @@
+name: ChatBlocker
+version: 1.0.0
+api: 1.8.0
+main: chatblocker\ChatBlocker
+author: PEMapModder
+permissions:
+  chatblocker:
+    description: parent permission node for ChatBlocker permissions
+    children:
+      chatblocker.bypaas:
+        description: messages sent by players that have this permission are ignored by ChatBlocker
