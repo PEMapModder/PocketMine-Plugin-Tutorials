@@ -9,3 +9,7 @@ permissions:
     children:
       chatblocker.bypaas:
         description: messages sent by players that have this permission are ignored by ChatBlocker
+        default: op
+      chatblocker.moderate:
+        description: "the permission for the 'tell moderators' action in config.yml"
+        default: op
