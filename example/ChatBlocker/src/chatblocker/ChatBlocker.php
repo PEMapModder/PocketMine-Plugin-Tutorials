@@ -23,7 +23,17 @@ class ChatBlocker extends PluginBase implements Listener{
 		}
 	}
 	public function matches($message){	
-		// TODO
+		foreach($this->getConfig()->get("phrases") as $phrase){
+			if(stripos($message, $phrase) !== false){
+				return true;
+			}
+		}
+		foreach($this->getConfig()->get("regular expressions") as $regex){
+			if(preg_match($regex, $message)){
+				return true;
+			}
+		}
+		return false;
 	}
 	public function executeOn(PlayerChatEvent $e){
 		// TODO
