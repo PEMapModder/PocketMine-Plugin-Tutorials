@@ -10,7 +10,7 @@ class ChatBlocker extends PluginBase implements Listener{
 	public function onEnable(){
 		$this->saveDefaultConfig(); // saves config.yml if it doesn't already exist
 		$this->reloadConfig(); // pre-load the config so that the file is loaded in startup time rather than runtime, improving server performance
-		$this->getPluginManager()->registerEvents($this, $this);
+		$this->getServer()->getPluginManager()->registerEvents($this, $this);
 	}
 	public function onChat(PlayerChatEvent $evt){
 		$player = $evt->getPlayer();
@@ -38,8 +38,46 @@ class ChatBlocker extends PluginBase implements Listener{
 	public function executeOn(PlayerChatEvent $e){
 		foreach($this->getConfig()->get("actions") as $action){ // execute actions one by one
 			switch($action){
-				
+				case "block":
+					$e->setCancelled();
+					break;
+				case "send warning":
+					$e->getPlayer()->sendMessage($this->getConfig()->get("warning message"));
+					break;
+				case "kick":
+					$e->getPlayer()->kick($this->getConfig()->get("kick message"));
+					break;
+				case "ban ip":
+					$list = $this->getServer()->getIPBans();
+					$list->addBan($e->getPlayer()->getAddress(), $this->getConfig()->get("ban message"), null, "ChatBlocker");
+				case "ban name":
+					$list = $this->getServer()->getNameBans();
+					$list->addBan($e->getPlayer()->getName(), $this->getConfig()->get("ban message"), null, "ChatBlocker");
+				case "tell console":
+					$this->getLogger()->info($this->format($this->getConfig()->get("console format"), $e));
+					break;
+				case "tell moderators":
+					$this->getServer()->broadcast($this->format($this->getConfig()->get("moderator format"), $e), "chatblocker.moderate");
+					break;
+				default:
+					$this->getLogger()->error("Unknown action from config.yml: '$action'");
+					break;
 			}
 		}
+	}
+	public function format($message, PlayerChatEvent $e){
+		return str_replace(
+			[
+				"@player",
+				"@ip",
+				"@message",
+			],
+			[
+				$e->getPlayer()->getName(),
+				$e->getPlayer()->getAddress(),
+				$e->getMessage(),
+			],
+			$message
+		);
 	}
 }
