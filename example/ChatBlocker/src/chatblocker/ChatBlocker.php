@@ -15,7 +15,7 @@ class ChatBlocker extends PluginBase implements Listener{
 	public function onChat(PlayerChatEvent $evt){
 		$player = $evt->getPlayer();
 		if($player->hasPermission("chatblocker.bypass")){
-			return; // don't execute if the player has bypasd permission
+			return; // don't execute if the player has bypassed permission
 		}
 		$message = $evt->getMessage();
 		if($this->matches($message)){ // if the message matches the expressions
