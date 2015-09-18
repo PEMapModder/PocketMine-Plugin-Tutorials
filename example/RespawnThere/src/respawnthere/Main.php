@@ -27,7 +27,7 @@ class Main extends PluginBase{
 			if(!($levelObject instanceof Level)){
 				// uh-oh, the level is still not loaded
 				$this->getLogger()->critical("Unable to load level ".TextFormat::YELLOW.$level.TextFormat::RED."!"); // send console a message that the level cannot be loaded
-				$this->setEnabled(false); // commit suicide! Disable yoruself!
+				$this->setEnabled(false); // commit suicide! Disable yourself!
 				return;
 			}
 		}
