@@ -1,0 +1,62 @@
+html{
+	background: #FFFFFF url("plugin_icon_fadeout.jpg") center fixed;
+}
+#body{
+	font-family:      Helvetica, arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol";
+	width:            1000px;
+	margin:           auto;
+	line-height:      160%;
+	font-size:        16px;
+	background-color: #FFFFFF;
+	padding:          10px;
+	border-radius:    10px;
+}
+.heading{
+	font-weight:   bold;
+	border-radius: 5px;
+}
+.spoiler{
+	border:        groove;
+	border-radius: 10px;
+	padding:       5px;
+}
+.note{
+	font-style: italic;
+}
+p, .note{
+	line-height: 160%;
+}
+p br{
+	margin: 30px;
+}
+#index{
+	border:        ridge;
+	border-radius: 5px;
+	width:         500px;
+}
+code, pre{
+	background-color: #000000;
+	color:            #FFFFFF;
+	font-family:      Consolas, "Liberation Mono", Menlo, Courier, monospace;
+	border-radius:    5px;
+	padding:          1px;
+	/* This font family set is what GitHub uses, and I like it :D */
+}
+.u{
+	text-decoration: underline;
+}
+li.depth-1{
+	list-style-type: decimal;
+}
+li.depth-2{
+	list-style-type: lower-alpha;
+}
+li.depth-3{
+	list-style-type: lower-roman;
+}
+li.depth-4{
+	list-style-type: upper-alpha;
+}
+li.depth-5{
+	list-style-type: upper-roman;
+}
