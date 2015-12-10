@@ -20,6 +20,7 @@ function registerSpoiler(el){
 	var button = $("<button class='button spoiler-opener'>Show</button>");
 	var before = $("<div></div>");
 	button.appendTo(before);
+	before.append("<hr>");
 	button.attr("data-spoiler-name", id);
 	button.attr("onclick", onclick);
 	before.insertBefore(el);
@@ -100,18 +101,20 @@ $(document).ready(function(){
 		var anchorId = "anchor-auto-" + (nextAnchorId++);
 		$this.prepend('<a name="' + anchorId + '"></a>');
 		var clazz = "depth-" + parents.length;
-		if(parents.length == 0){
-			var tmpTree = new Tree(name, anchorId, clazz);
-			trees[name] = tmpTree;
-			if(this.id === "mainTree"){
-				tree = tmpTree;
+		if(!$this.hasClass("no-index")){
+			if(parents.length == 0){
+				var tmpTree = new Tree(name, anchorId, clazz);
+				trees[name] = tmpTree;
+				if(this.id === "mainTree"){
+					tree = tmpTree;
+				}
+			}else{
+				var $parent = $(parents[0]);
+				var parentTree = trees[$parent.attr("data-name")];
+				var t;
+				parentTree.addChild(t = new Tree(name, anchorId, clazz));
+				trees[name] = t;
 			}
-		}else{
-			var $parent = $(parents[0]);
-			var parentTree = trees[$parent.attr("data-name")];
-			var t;
-			parentTree.addChild(t = new Tree(name, anchorId, clazz));
-			trees[name] = t;
 		}
 		var depth = parents.length;
 		maxDepth = Math.max(maxDepth, depth);

@@ -3,7 +3,6 @@
 <head>
 	<meta charset="UTF-8">
 	<title>PocketMine Plugin Tutorials</title>
-	<link rel="icon" href="../plugin_icon.png">
 	<script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
 	<script src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
 	<script src="../doctree.js"></script>
@@ -14,7 +13,214 @@
 	<div class="tree" data-name="Contents" id="index" style="line-height: 130%;"></div>
 	<hr>
 	<div class="tree" data-name="PocketMine Plugin Tutorials" id="mainTree">
-		<div class="tree" data-name="Contact">
+		<div class="tree" data-name="Chapter 0 - Introduction">
+			<p>
+				Well, I guess, this is the 5<sup>th</sup> or 6<sup>th</sup> version of PocketMine plugin tutorials from
+				me?<br>
+				I must admit that the versions before had not been very successful, so I guess we should start all over
+				again.<br>
+				This time, I created the tutorials with GitHub sites. Hopefully more customizable pages will help make
+				the tutorials better.
+			</p>
+
+			<p>
+				So, first of all, let's get to know clearly what we are planning to do.<br>
+				<span class="note">Wait, aren't we going to code PocketMine plugins? Isn't that clear enough?</span><br>
+				Then what exactly does a PocketMine plugin do? The answer could be quite vague.<br>
+				Basically, a plugin has unlimited power (including root access if you are running the server with root)
+				on your server. It is the commander of your server. Plugins instruct PocketMine to get everything done.
+			</p>
+
+			<p>
+				<span class="note">
+					So I know that the plugin is the god. But how does knowing that help me?
+				</span><br>
+				The problem that made most people unable to code is that most people don't know what they want.<br>
+				<span class="note">I know very clearly. I want to make a hunger games plugin.</span><br>
+				But then, what is a hunger games plugin?<br>
+			</p>
+
+			<div class="tree no-index" data-name="What is a Hunger Games plugin?">
+				<pre style="background-color: #FFFFFF; color: #000000;">
+ +-----------------+     +--------------------------+
+ | Player tap sign | ==> | Teleport player to lobby | ---+
+ +-----------------+     +--------------------------+    |
+                                                         |      +-------------------------+
+ +-----------------+     +--------------------------+    |      | Timer reached 0 second  |      +-----------------+      +---------------+      +------------------------+      +------------------------------+
+ | Player tap sign | ==> | Teleport player to lobby |    + ===> +-- WHEN EITHER HAPPENS --+ ===> | Start the match | ===> | Refill chests | ===> | Timer reached 0 second | ===> | Teleport to deathmatch arena |
+ +-----------------+     +--------------------------+    |      |      Enough players     |      +-----------------+      +---------------+      +------------------------+      +------------------------------+
+                                                         |      +-------------------------+                               |                                                                                     |
+ +-----------------+     +--------------------------+    |                                                                +-------------------------------------------------------------------------------------+
+ | Player tap sign | ==> | Teleport player to lobby | ---+ ===> +-------------------+     +---------------------------------------+                              |
+ +-----------------+     +--------------------------+           | When player moves | ==> | Don't let player move (teleport back) |                              |
+                                                                +-------------------+     +---------------------------------------+                              V                                            +----------------------------------+
+                      。                                                                                                                                 +----------------+     +-----------------------+     | If there is just one player left |
+                      。                                                                                                                                 | If player dies | ==> | Teleport him to spawn | ==> | Let that player win (add coins)  |
+                      。                                                                                                                                 +----------------+     +-----------------------+     +----------------------------------+
+
+ +--------------+     +------------------------+
+ | Player joins | ==> | Load player statistics |
+ +--------------+     +------------------------+
+
+ +--------------+     +------------------------+
+ | Player quits | ==> | Save player statistics |
+ +--------------+     +------------------------+
+
+ +---------------------------+     +------------------------+
+ | Player type command /stat | ==> | Show player statistics |
+ +---------------------------+     +------------------------+
+				</pre>
+			</div>
+
+			<p>
+				The outline for a hunger games plugin actually shows three of the most important components of plugins:
+			</p>
+			<ol>
+				<li>Commands</li>
+				<li>Events (when something happens)</li>
+				<li>Timer</li>
+			</ol>
+			<p>
+				Of course, we are nowhere near the complexity of a good hunger games plugin. But at least now we know
+				better what we are going to do.
+			</p>
+
+			<p>
+				In the <a href="#">second chapter</a> of this website, we will go through the principles of these three
+				components, as well as some fundamental ways of doing various actions on the server.<br>
+				But before that, we would start by creating <em>a useless plugin that works</em>.
+			</p>
+		</div>
+		<div class="tree" data-name="Chapter 1 - A useless plugin that works">
+			<div class="tree" data-name="Basic tools">
+				It is hilarious for many times someone asks me to teach him/her plugin development, and after half an
+				hour
+				long talk of theory we decided to get our hands on getting something produced and realized that he/she
+				did
+				not have the necessary tools ready. Make sure you have everything in this <em>basic</em> checklist:
+				<ul>
+					<li>A PocketMine server that you can <em>directly</em> change its plugin files.<br>
+						For testing plugins, obviously.
+					</li>
+					<li>
+						A virtual/hard keyboard that can let you type symbols like
+						<code>,.;!?$/\|()[]{}</code>.
+					</li>
+				</ul>
+				Yes, that's all. If that's all the resources you got, you could still code plugins, but with very hard
+				time.<br>
+				Here is a list of <em>recommended</em> tools:
+				<ul>
+					<li><strong>Text editor</strong><br>
+						<ul>
+							<li><strong>Windows</strong>
+								<ul>
+									<li>
+										If you are thinking about <em>Microsoft Word</em>, get rid of that thought
+										immediately. Microsoft Word is a rich text editor, and it simply cannot open nor
+										output any text files. Same applies to <em>WordPad</em> that came in Windows'
+										<em>Accessories</em>.<br>
+									</li>
+									<li>
+										You may be thinking about <em>NotePad</em> that came in the <em>Accessories</em>
+										with Windows. Well, it is the best option if you can't install anything on your
+										computer. (But then how did you install PocketMine?)
+									</li>
+									<li>
+										The recommended tool is <em><a
+											href="https://notepad-plus-plus.org">Notepad++</a></em>. It is a powerful
+										text editor for many types of files and for different programming languages.
+									</li>
+									<li>
+										Some would recommend NetBeans, but I wouldn't want you to waste time doing all
+										the setup stuff. Believe me, setup for a program always makes anything
+										interesting into boring.
+									</li>
+									<li>
+										If you have heard of PhpStorm, again, same with NetBeans, setup trouble
+										(although there isn't a lot). Moreover, it is paid software, although there are
+										some ways to legitimately get it for free. Nevertheless, it is an all-powerful
+										IDE that completes the code for you when you have provided a little hint, and
+										can also be used for other things like coding websites, etc. Actually, this
+										website was written using PhpStorm (although there is no PHP here).
+									</li>
+									<li><strong>Browser + GitHub</strong>
+										The GitHub editor for code is not bad, at least better than Windows Notepad, but
+										it is far not as good as PhpStorm. If you don't like installing anything, this
+										is a good alternative to Notepad++.
+									</li>
+								</ul>
+							</li>
+							<li><strong>OS X</strong>
+								<ul>
+									<li>I have never used OS X, so don't ask me :(</li>
+								</ul>
+							</li>
+							<li><strong>iOS</strong>
+								<ul>
+									<li>I have never used iOS, so don't ask me :(</li>
+								</ul>
+							</li>
+							<li><strong>Android</strong><br>
+								I would not advise coding on phones or tablets, but if you don't have an alternative,
+								well...
+								<ul>
+									<li><strong>Normal text editors</strong><br>
+										Whatever editor you like, as long as it disables autocorrect. You can try <em>Text
+											Editor</em> embedded in the <em>File Manager</em> app.<br>
+										BTW, you need a file explorer since plugins consist of more than one file when
+										you are developing.
+									</li>
+									<li><strong>Vim Touch</strong><br>
+										It is an imitation of <em>Vim</em> for Linux. It is an odd choice, but it has
+										good things if you
+									</li>
+									<li><strong>Chrome + GitHub</strong>
+										Many mobile users found GitHub's direct edit interface good, although it isn't
+										at all.
+									</li>
+								</ul>
+							</li>
+						</ul>
+					</li>
+					<li><strong>A browser</strong><br>
+						For you to look for documentation (and this website) anytime you have trouble. Believe me,
+						nobody memorizes all the functions in PHP.
+					</li>
+				</ul>
+				<p>
+					Yes, this simple. That's all you need. But again, I strongly encourage you to get a computer and a
+					hard keyboard, or you can hardly develop anything big without finding all your <code>$this</code>
+					becoming <code>$thos</code>.
+				</p>
+			</div>
+			<div class="tree" data-name="Setting up plugin manifest">
+				<p>
+					I would assume that you have PocketMine setup already. I hope I don't need to teach you how to find
+					that directory.<br>
+					<span class="note">Fine. For Android it is <code>~/PocketMine</code>, where <code>~</code> is something
+						like <code>/mnt/sdcard</code>, etc.</span><br>
+					Navigate to the <code>plugins</code> directory (a.k.a. folder) and install the <a
+						href="https://forums.pocketmine.net/plugins/devtools.515/">DevTools</a> plugin.<br>
+					For our first plugin, we are going to call it <code>FirstPlugin</code>. Now, create a directory in
+					the <code>plugins</code> directory called <code>FirstPlugin</code>. So now we have <code>/plugins/FirstPlugin</code>.
+					For convenience, in the future we are going to call this path <code>~</code>. E.g. <code>~/plugin.yml</code>
+					refers to <code>/plugins/FirstPlugin/plugin.yml</code>.<br>
+				</p>
+
+				<p>
+					Now, it is time to create the very first file of our plugin. But it is not PHP code. It is a <em>YAML</em>
+					file that describes your plugin, located at <code>~/plugin.yml</code>.<br>
+				</p>
+				<pre data-language="YAML">
+name: FirstPlugin
+version: 1.0.0
+api: [1.13.0]
+main: FirstPlugin\FirstPlugin
+				</pre>
+			</div>
+		</div>
+		<div class="tree" data-name="Chapter &infin; - Contact">
 			<div class="tree" data-name="IRC"><p>
 				Server: chat.freenode.net:6667<br>
 				Private message: PEMapModder<br>

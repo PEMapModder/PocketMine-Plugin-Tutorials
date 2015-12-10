@@ -18,7 +18,10 @@
 	padding:       5px;
 }
 .note{
-	font-style: italic;
+	font-style:   italic;
+	color:        #606060;
+	border-left:  4px solid #A0A0A0;
+	padding-left: 16px;
 }
 p, .note{
 	line-height: 160%;
@@ -37,16 +40,17 @@ code, pre{
 	font-family:      Consolas, "Liberation Mono", Menlo, Courier, monospace;
 	border-radius:    5px;
 	padding:          1px;
+	display:          inline;
 	/* This font family set is what GitHub uses, and I like it :D */
 }
 .u{
 	text-decoration: underline;
 }
 li.depth-1{
-	list-style-type: decimal;
+	list-style-type: lower-alpha;
 }
 li.depth-2{
-	list-style-type: lower-alpha;
+	list-style-type: decimal;
 }
 li.depth-3{
 	list-style-type: lower-roman;
