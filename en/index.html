@@ -5,7 +5,37 @@
 	<title>PocketMine Plugin Tutorials</title>
 	<script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
 	<script src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
+	<script src="../highlight.pack.js"></script>
+	<link rel="stylesheet" href="../highlight/railscasts.css">
 	<script src="../doctree.js"></script>
+	<script>
+		$(document).ready(function(){
+			$(".codefence").each(function(){
+				var $this = $(this);
+				$this.addClass("lang-" + $this.attr("data-language"));
+				hljs.highlightBlock(this);
+				var html = $this.html();
+				var lines = html.split("\n");
+				var out = [];
+				var maxChars = ("" + lines.length).length + 1;
+				var isFirst = true;
+				var cnt = 0;
+				for(var i = 0; i < lines.length; i++){
+					var isEmpty = lines[i].trim().length == 0;
+					if(isFirst && isEmpty){
+						continue;
+					}
+					var lineName = (cnt + 1) + "";
+					while(lineName.length < maxChars){
+						lineName = "&nbsp;" + lineName;
+					}
+					out.push(lineName + "&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;" + lines[i]);
+					cnt++;
+				}
+				$this.html(out.join("\n"));
+			});
+		});
+	</script>
 	<link rel="stylesheet" href="../guide.css" type="text/css">
 </head>
 <body>
@@ -41,7 +71,7 @@
 			</p>
 
 			<div class="tree no-index" data-name="What is a Hunger Games plugin?">
-				<pre style="background-color: #FFFFFF; color: #000000;">
+				<pre class="code" style="background-color: #FFFFFF; color: #000000;">
  +-----------------+     +--------------------------+
  | Player tap sign | ==> | Teleport player to lobby | ---+
  +-----------------+     +--------------------------+    |
@@ -104,7 +134,7 @@
 					</li>
 					<li>
 						A virtual/hard keyboard that can let you type symbols like
-						<code>,.;!?$/\|()[]{}</code>.
+						<code class="code">,.;!?$/\|()[]{}</code>.
 					</li>
 				</ul>
 				Yes, that's all. If that's all the resources you got, you could still code plugins, but with very hard
@@ -190,41 +220,42 @@
 				</ul>
 				<p>
 					Yes, this simple. That's all you need. But again, I strongly encourage you to get a computer and a
-					hard keyboard, or you can hardly develop anything big without finding all your <code>$this</code>
-					becoming <code>$thos</code>.
+					hard keyboard, or you can hardly develop anything big without finding all your <code class="code">$this</code>
+					becoming <code class="code">$thos</code>.
 				</p>
 			</div>
 			<div class="tree" data-name="Setting up plugin manifest">
 				<p>
 					I would assume that you have PocketMine setup already. I hope I don't need to teach you how to find
 					that directory.<br>
-					<span class="note">Fine. For Android it is <code>~/PocketMine</code>, where <code>~</code> is something
-						like <code>/mnt/sdcard</code>, etc.</span><br>
-					Navigate to the <code>plugins</code> directory (a.k.a. folder) and install the <a
+					<span class="note">Fine. For Android it is <code class="code">~/PocketMine</code>, where <code class="code">~</code> is something
+						like <code class="code">/mnt/sdcard</code>, etc.</span><br>
+					Navigate to the <code class="code">plugins</code> directory (a.k.a. folder) and install the <a
 						href="https://forums.pocketmine.net/plugins/devtools.515/">DevTools</a> plugin.<br>
-					For our first plugin, we are going to call it <code>FirstPlugin</code>. Now, create a directory in
-					the <code>plugins</code> directory called <code>FirstPlugin</code>. So now we have <code>/plugins/FirstPlugin</code>.
-					For convenience, in the future we are going to call this path <code>~</code>. E.g. <code>~/plugin.yml</code>
-					refers to <code>/plugins/FirstPlugin/plugin.yml</code>.<br>
+					For our first plugin, we are going to call it <code class="code">FirstPlugin</code>. Now, create a directory in
+					the <code class="code">plugins</code> directory called <code class="code">FirstPlugin</code>. So now we have <code class="code">/plugins/FirstPlugin</code>.
+					For convenience, in the future we are going to call this path <code class="code">~</code>. E.g. <code class="code">~/plugin.yml</code>
+					refers to <code class="code">/plugins/FirstPlugin/plugin.yml</code>.<br>
 				</p>
 
 				<p>
 					Now, it is time to create the very first file of our plugin. But it is not PHP code. It is a <em>YAML</em>
-					file that describes your plugin, located at <code>~/plugin.yml</code>.<br>
+					file that describes your plugin, located at <code class="code">~/plugin.yml</code>.<br>
 				</p>
-				<pre data-language="YAML">
+				<pre><code class="codefence" data-language="yaml">
 name: FirstPlugin
 version: 1.0.0
 api: [1.13.0]
 main: FirstPlugin\FirstPlugin
-				</pre>
+				</code></pre>
+
 			</div>
 		</div>
 		<div class="tree" data-name="Chapter &infin; - Contact">
 			<div class="tree" data-name="IRC"><p>
 				Server: chat.freenode.net:6667<br>
 				Private message: PEMapModder<br>
-				Channel: <code>#pmplugins</code>
+				Channel: <code class="code">#pmplugins</code>
 			</p></div>
 			<div class="tree" data-name="Gitter">
 				<a href="https://gitter.im/PEMapModder/PocketMine-Plugin-Tutorials">
@@ -235,7 +266,7 @@ main: FirstPlugin\FirstPlugin
 		</div>
 	</div>
 	<div class="tree" data-name="Read in another language">
-		<iframe src="../" style="width: 100%"><a href="../">Read in another language</a></iframe>
+		<iframe src="../" style="width: 100%"></iframe>
 	</div>
 </div>
 </body>
