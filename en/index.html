@@ -342,7 +342,7 @@ main: FirstPlugin\FirstPlugin
 					$.get("../resources/dummy.php", {}, function(data){
 						var code = $("#dummyClass");
 						code.text(data);
-						codefenceFunc.call(code);
+						codefenceFunc.call(code.get()[0]);
 					});
 				</script>
 				</pre>
