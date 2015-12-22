@@ -338,12 +338,11 @@ main: FirstPlugin\FirstPlugin
 				<pre>
 				<code data-language="php" id="dummyClass"></code>
 				<script>
-					$.get("../resources/dummy.php", {
-						success: function(data){
-							var code = $("#dummyClass");
-							code.text(data);
-							codefenceFunc.call(code);
-						}
+					//noinspection JSUnusedGlobalSymbols
+					$.get("../resources/dummy.php", {}, function(data){
+						var code = $("#dummyClass");
+						code.text(data);
+						codefenceFunc.call(code);
 					});
 				</script>
 				</pre>
