@@ -6,34 +6,37 @@
 	<script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
 	<script src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
 	<script src="../highlight.pack.js"></script>
-	<link rel="stylesheet" href="../highlight/railscasts.css">
+	<link rel="stylesheet" href="../highlight/rainbow.css">
 	<script src="../doctree.js"></script>
 	<script>
-		$(document).ready(function(){
-			$(".codefence").each(function(){
-				var $this = $(this);
-				$this.addClass("lang-" + $this.attr("data-language"));
-				hljs.highlightBlock(this);
-				var html = $this.html();
-				var lines = html.split("\n");
-				var out = [];
-				var maxChars = ("" + lines.length).length + 1;
-				var isFirst = true;
-				var cnt = 0;
-				for(var i = 0; i < lines.length; i++){
-					var isEmpty = lines[i].trim().length == 0;
-					if(isFirst && isEmpty){
-						continue;
-					}
-					var lineName = (cnt + 1) + "";
-					while(lineName.length < maxChars){
-						lineName = "&nbsp;" + lineName;
-					}
-					out.push(lineName + "&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;" + lines[i]);
-					cnt++;
+		var codefenceFunc = function(){
+			var $this = $(this);
+			$this.addClass("lang-" + $this.attr("data-language"));
+			hljs.highlightBlock(this);
+			var html = $this.html();
+			var lines = html.split("\n");
+			var out = [];
+			var maxChars = ("" + lines.length).length + 1;
+			var isFirst = true;
+			var cnt = 0;
+			for(var i = 0; i < lines.length; i++){
+				var isEmpty = lines[i].trim().length == 0;
+				if(isFirst && isEmpty){
+					continue;
 				}
+				var lineName = (cnt + 1) + "";
+				while(lineName.length < maxChars){
+					lineName = "&nbsp;" + lineName;
+				}
+				out.push(lineName + "&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;" + lines[i]);
+				cnt++;
+			}
+			if(out.length > 1){
 				$this.html(out.join("\n"));
-			});
+			}
+		};
+		$(document).ready(function(){
+			$(".codefence").each(codefenceFunc);
 		});
 	</script>
 	<link rel="stylesheet" href="../guide.css" type="text/css">
@@ -116,12 +119,12 @@
 			</p>
 
 			<p>
-				In the <a href="#">second chapter</a> of this website, we will go through the principles of these three
+				In Chapters 3-5 of this website, we will go through the principles of these three
 				components, as well as some fundamental ways of doing various actions on the server.<br>
 				But before that, we would start by creating <em>a useless plugin that works</em>.
 			</p>
 		</div>
-		<div class="tree" data-name="Chapter 1 - A useless plugin that works">
+		<div class="tree" data-name="Chapter 1 - A useless plugin that works: No code yet, no trouble yet">
 			<div class="tree" data-name="Basic tools">
 				It is hilarious for many times someone asks me to teach him/her plugin development, and after half an
 				hour
@@ -230,7 +233,7 @@
 					that directory.<br>
 					<span class="note">Fine. For Android it is <code class="code">~/PocketMine</code>, where <code class="code">~</code> is something
 						like <code class="code">/mnt/sdcard</code>, etc.</span><br>
-					Navigate to the <code class="code">plugins</code> directory (a.k.a. folder) and install the <a
+					Navigate to the <code class="code">plugins</code> directory (a.k.a. folder) in the server directory and install the <a
 						href="https://forums.pocketmine.net/plugins/devtools.515/">DevTools</a> plugin.<br>
 					For our first plugin, we are going to call it <code class="code">FirstPlugin</code>. Now, create a directory in
 					the <code class="code">plugins</code> directory called <code class="code">FirstPlugin</code>. So now we have <code class="code">/plugins/FirstPlugin</code>.
@@ -244,11 +247,106 @@
 				</p>
 				<pre><code class="codefence" data-language="yaml">
 name: FirstPlugin
+author: PEMapModder
 version: 1.0.0
-api: [1.13.0]
+api: 1.13.0
 main: FirstPlugin\FirstPlugin
 				</code></pre>
-
+				<p>Before you try to copy, please read my explanation for them, line by line.</p>
+				<pre><code class="codefence" data-language="yaml">name: FirstPlugin</code></pre>
+				<p>This line, apparently, defines your plugin name. Replace <code class="code">FirstPlugin</code> with
+				your plugin name, and you will see it showing up in the startup messages when the server starts.</p>
+				<pre><code class="codefence" data-language="yaml">author: PEMapModder</code></pre>
+				<p>This line, apparent as well, tells the server who wrote this plugin. Of course, replace
+				<code class="code">PEMapModder</code> with your own name. It can contain spaces. However, if you have
+				more than one author, change <code class="code">author</code> to <code class="code">authors</code> and
+				put down all the author names, separated by commas <code class="code">,</code>, and put square brackets
+				<code class="code">[ ]</code> around them.</p>
+				<pre><code class="codefence" data-language="yaml">version: 1.0.0</code></pre>
+				<p>This line defines the plugin's version. It is purely internal with no rules, and the server will not
+				try to understand what you are trying to say in the version. Just type whatever you like here as long as
+				users and yourself can understand it.</p>
+				<pre><code class="codefence" data-language="yaml">api: 1.13.0</code></pre>
+				<p>
+					<em>API</em> means "application program interface". It is basically the things from PocketMine that
+					lets plugins interact with it. It is like how a microwave oven has buttons to let people adjust
+					it.<br>
+					This refers to the minimum API version your plugin supports. You can find the current API version
+					of your server from the startup messages:<br>
+					<img src="data:image/png;base64,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"><br>
+					The first number refers to a complete change in API (major version). The plugin and the server must
+					have the same number here to be loaded.<br>
+					The second number refers to additions in the API (minor version). The plugin must have the same or
+					smaller number here to be loaded.<br>
+					The third number refers to minor API changes (patches). Any numbers work here, but you should use
+					the number you tested for.<br>
+					All these information aside, what you have to know is, you&apos;d better use the number you see in
+					your server's startup.
+				</p>
+				<pre><code class="codefence" data-language="yaml">main: FirstPlugin\FirstPlugin</code></pre>
+				<p>
+					Here finally comes the part related to the plugin code.<br>
+					Short and unclear explanation:<br>
+					<span class="note">This is the <strong>fully-qualified name</strong> of your plugin's
+						<strong>main class</strong></span>.<br>
+					This obviously explains nothing to someone who doesn't know what a <strong>class</strong> is. Let's
+					just go through step-by-step.<br>
+				</p>
+				<p>
+					In PHP (especially in PocketMine-related PHP), code is contained in units called "classes". You can
+					think a class as a "file" (and it is indeed true that we would normally put only one class in one
+					file).<br>
+					And what's even more exciting, since we have files, we have directories (folders) that contain the
+					files. They are called "namespaces". Actually, we normally put a PHP file with the proper filename
+					in the proper directory according to their namespace and class name. I said "normally" because it
+					<em>sometimes</em> works if you don't, but just forget it and assume that it doesn't.<br>
+					Usually, just like you put similar files in the same directory, we put classes of the same plugin in
+					the same namespace. We can also have "sub-namespaces" just like we have sub-directories,
+					<em>but that isn't important; just forget about it</em>.
+				</p>
+				<p>
+					By convention, we use Pascal-case for class names. That is, we would
+					<code class="code">WriteLikeThis</code> if we all write in Pascal-Case.<br>
+					Note that you can only use alphabets, the 10 numbers (0-9) and the underscore (<code class="code">_</code>) in
+					class names. Also, class names cannot start with numbers.<br>
+					For namespaces, the same rule applies. However, to create "sub-namespaces", just like file paths
+					in Windows, we separate two parts by a backslash <code class="code">\</code>.<br>
+					Now, to get a <strong>fully-qualified name</strong> of the class, which is like the full file path
+					on Windows, we use <code class="code">NamespaceName\ClassName</code>. In our example,
+					<code class="code">FirstPlugin\FirstPlugin</code> is the fully-qualified name of the namespace
+					<code class="code">FirstPlugin</code> and the class name also <code class="code">FirstPlugin</code>.
+				</p>
+				<p>
+					So what is a class? We will get it discussed in the next chapter.
+				</p>
+			</div>
+		</div>
+		<div class="tree" data-name="Chapter 2 - A useless plugin that works: Some code, but just copy">
+			<p>
+				I have already explained about the meaning of namespaces and classes in the previous chapter -
+				namespaces are like directories, and classes are like files. But to what extent are they alike?<br>
+				Files that contain PHP code (source code) are called "source files". In your plugin, source files should
+				be located inside a directory called "sources root", which should be at <code class="code">~/src</code>.<br>
+				A source file ends with <code class="code">.php</code>. In front of that, it is the fully-qualified name
+				of the class inside the source file.<br>
+				Now we have the fully-qualified name <code class="code">FirstPlugin\FirstPlugin</code>, we should create
+				our source file at <code class="code">~/src/FirstPlugin/FirstPlugin.php</code>. Simple. What's not so
+				simple that gave the magical power to plugins is the things inside the file.
+			</p>
+			<div class="tree" data-name="Dummy class">
+				<p>Hold your breath and scroll through all these.</p>
+				<pre>
+				<code data-language="php" id="dummyClass"></code>
+				<script>
+					$.get("../resources/dummy.php", {
+						success: function(data){
+							var code = $("#dummyClass");
+							code.text(data);
+							codefenceFunc.call(code);
+						}
+					});
+				</script>
+				</pre>
 			</div>
 		</div>
 		<div class="tree" data-name="Chapter &infin; - Contact">
