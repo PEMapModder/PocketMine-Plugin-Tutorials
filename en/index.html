@@ -38,6 +38,19 @@
 		};
 		$(document).ready(function(){
 			$(".codefence").each(codefenceFunc);
+			$(".codeEmbed").each(function(){
+				var $this = $(this);
+				var src = $this.attr("data-src");
+				$.get(src, {}, function(data){
+					var code = $("<code></code>");
+					code.text(data);
+					code.attr("data-language", $this.attr("data-language"));
+					var pre = $("<pre></pre>");
+					code.appendTo(pre);
+					pre.appendTo($this);
+					codefenceFunc.call(code.get()[0]);
+				})
+			});
 		});
 	</script>
 	<link rel="stylesheet" href="../guide.css" type="text/css">
@@ -232,13 +245,18 @@
 				<p>
 					I would assume that you have PocketMine setup already. I hope I don't need to teach you how to find
 					that directory.<br>
-					<span class="note">Fine. For Android it is <code class="code">~/PocketMine</code>, where <code class="code">~</code> is something
+					<span class="note">Fine. For Android it is <code class="code">~/PocketMine</code>, where <code
+							class="code">~</code> is something
 						like <code class="code">/mnt/sdcard</code>, etc.</span><br>
-					Navigate to the <code class="code">plugins</code> directory (a.k.a. folder) in the server directory and install the <a
+					Navigate to the <code class="code">plugins</code> directory (a.k.a. folder) in the server directory
+					and install the <a
 						href="https://forums.pocketmine.net/plugins/devtools.515/">DevTools</a> plugin.<br>
-					For our first plugin, we are going to call it <code class="code">FirstPlugin</code>. Now, create a directory in
-					the <code class="code">plugins</code> directory called <code class="code">FirstPlugin</code>. So now we have <code class="code">/plugins/FirstPlugin</code>.
-					For convenience, in the future we are going to call this path <code class="code">~</code>. E.g. <code class="code">~/plugin.yml</code>
+					For our first plugin, we are going to call it <code class="code">FirstPlugin</code>. Now, create a
+					directory in
+					the <code class="code">plugins</code> directory called <code class="code">FirstPlugin</code>. So now
+					we have <code class="code">/plugins/FirstPlugin</code>.
+					For convenience, in the future we are going to call this path <code class="code">~</code>. E.g.
+					<code class="code">~/plugin.yml</code>
 					refers to <code class="code">/plugins/FirstPlugin/plugin.yml</code>.<br>
 				</p>
 
@@ -247,26 +265,30 @@
 					file that describes your plugin, located at <code class="code">~/plugin.yml</code>.<br>
 				</p>
 				<pre><code class="codefence" data-language="yaml">
-name: FirstPlugin
-author: PEMapModder
-version: 1.0.0
-api: 1.13.0
-main: FirstPlugin\FirstPlugin
+					name: FirstPlugin
+					author: PEMapModder
+					version: 1.0.0
+					api: 1.13.0
+					main: FirstPlugin\FirstPlugin
 				</code></pre>
 				<p>Before you try to copy, please read my explanation for them, line by line.</p>
 				<pre><code class="codefence" data-language="yaml">name: FirstPlugin</code></pre>
 				<p>This line, apparently, defines your plugin name. Replace <code class="code">FirstPlugin</code> with
-				your plugin name, and you will see it showing up in the startup messages when the server starts.</p>
+					your plugin name, and you will see it showing up in the startup messages when the server starts.</p>
 				<pre><code class="codefence" data-language="yaml">author: PEMapModder</code></pre>
 				<p>This line, apparent as well, tells the server who wrote this plugin. Of course, replace
-				<code class="code">PEMapModder</code> with your own name. It can contain spaces. However, if you have
-				more than one author, change <code class="code">author</code> to <code class="code">authors</code> and
-				put down all the author names, separated by commas <code class="code">,</code>, and put square brackets
-				<code class="code">[ ]</code> around them.</p>
+					<code class="code">PEMapModder</code> with your own name. It can contain spaces. However, if you
+					have
+					more than one author, change <code class="code">author</code> to <code class="code">authors</code>
+					and
+					put down all the author names, separated by commas <code class="code">,</code>, and put square
+					brackets
+					<code class="code">[ ]</code> around them.</p>
 				<pre><code class="codefence" data-language="yaml">version: 1.0.0</code></pre>
 				<p>This line defines the plugin's version. It is purely internal with no rules, and the server will not
-				try to understand what you are trying to say in the version. Just type whatever you like here as long as
-				users and yourself can understand it.</p>
+					try to understand what you are trying to say in the version. Just type whatever you like here as
+					long as
+					users and yourself can understand it.</p>
 				<pre><code class="codefence" data-language="yaml">api: 1.13.0</code></pre>
 				<p>
 					<em>API</em> means "application program interface". It is basically the things from PocketMine that
@@ -308,7 +330,8 @@ main: FirstPlugin\FirstPlugin
 				<p>
 					By convention, we use Pascal-case for class names. That is, we would
 					<code class="code">WriteLikeThis</code> if we all write in Pascal-Case.<br>
-					Note that you can only use alphabets, the 10 numbers (0-9) and the underscore (<code class="code">_</code>) in
+					Note that you can only use alphabets, the 10 numbers (0-9) and the underscore (<code
+						class="code">_</code>) in
 					class names. Also, class names cannot start with numbers.<br>
 					For namespaces, the same rule applies. However, to create "sub-namespaces", just like file paths
 					in Windows, we separate two parts by a backslash <code class="code">\</code>.<br>
@@ -336,19 +359,20 @@ main: FirstPlugin\FirstPlugin
 			</p>
 			<div class="tree" data-name="Dummy class">
 				<p>Hold your breath and scroll through all these.</p>
-				<pre>
-				<code data-language="php" id="dummyClass"></code>
-				<script>
-					//noinspection JSUnusedGlobalSymbols
-					$.get("../resources/dummy.php", {}, function(data){
-						var code = $("#dummyClass");
-						code.text(data);
-						codefenceFunc.call(code.get()[0]);
-					});
-				</script>
-				</pre>
+				<div class="codeEmbed" data-src="../resources/dummy.php"></div>
+				<!--<pre>-->
+				<!--<code data-language="php" id="dummyClass"></code>-->
+				<!--<script>-->
+					<!--//noinspection JSUnusedGlobalSymbols-->
+					<!--$.get("../resources/dummy.php", {}, function(data){-->
+						<!--var code = $("#dummyClass");-->
+						<!--code.text(data);-->
+						<!--codefenceFunc.call(code.get()[0]);-->
+					<!--});-->
+				<!--</script>-->
+				<!--</pre>-->
 				<p>STOP. Did I tell you to copy? Oh, did I say "just copy"? Forget that. Don't copy. Instead, try to
-				understand it and write it when you know what you are writing.</p>
+					understand it and write it when you know what you are writing.</p>
 			</div>
 		</div>
 		<div class="tree" data-name="Chapter &infin; - Contact">
