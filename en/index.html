@@ -39,7 +39,7 @@
 				while(lineName.replace("&nbsp;", " ").length < maxChars){
 					lineName = lineName + "&nbsp;";
 				}
-				out.push(lineName + "&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;" + lines[i]);
+				out.push(lineName + "&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;" + lines[i].substring(minIndent));
 				cnt++;
 			}
 			if(out.length > 1){
