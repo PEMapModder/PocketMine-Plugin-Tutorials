@@ -57,7 +57,13 @@ Tree.prototype.addChild = function(child){
 	this.children[child.name] = child;
 };
 Tree.prototype.toOlJQuery = function(){
-	var out = $('<li><a class="branch" data-target="' + this.id + '" href="#' + this.id + '">' + this.name + '</a></li>');
+	var a = $("<a></a>");
+	a.addClass("branch");
+	a.attr("data-target", this.id);
+	a.attr("href", "#" + this.id);
+	a.text(this.name);
+	var out = $("<li></li>");
+	a.appendTo(out);
 	out.addClass(this.depthClass);
 	var $ol = $("<ol></ol>");
 	for(var name in this.children){
@@ -81,7 +87,7 @@ function gotoAnchor(anchor){
 		}
 	});
 	$("html, body").animate({
-		scrollTop: Math.max(0, target.parent().prev().offset().top - $(window).height() * 0.1)
+		scrollTop: Math.max(0, target.parent().prev().offset().top + window.innerHeight * 0.25)
 	}, 200, "swing", function(){
 		var header = target.parent().prev();
 		header.css("background-color", "#B11D98");
@@ -120,7 +126,7 @@ $(document).ready(function(){
 		maxDepth = Math.max(maxDepth, depth);
 		var $div = registerSpoiler($this);
 		var bef = $("<span></span>");
-		bef.html(name + "&nbsp;");
+		bef.text(name + " ");
 		var id = $div.children("button").attr("data-spoiler-name");
 		var onclick = 'switchSpoiler("' + id + '");';
 		bef.attr("onclick", onclick);

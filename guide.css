@@ -43,8 +43,18 @@ p br{
 	display:          inline;
 	/* This font family set is what GitHub uses, and I like it :D */
 }
+.note .code{
+	background-color: #606060;
+}
+.codefence{
+	border-radius: 5px;
+}
 .u{
 	text-decoration: underline;
+}
+.hinted{
+	border-bottom: 1px dotted #000000;
+	cursor: help;
 }
 li.depth-1{
 	list-style-type: lower-alpha;

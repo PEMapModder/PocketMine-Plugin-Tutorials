@@ -16,17 +16,27 @@
 			var html = $this.html();
 			var lines = html.split("\n");
 			var out = [];
-			var maxChars = ("" + lines.length).length + 1;
+			var maxChars = ("" + lines.length).length;
 			var isFirst = true;
 			var cnt = 0;
+			var minIndent = Number.MAX_VALUE;
 			for(var i = 0; i < lines.length; i++){
+				var line = lines[i];
+				var indent = 0;
+				while(line.startsWith("\t")){
+					indent++;
+					line = line.substring(1);
+				}
+				minIndent = Math.min(minIndent, indent);
+			}
+			for(i = 0; i < lines.length; i++){
 				var isEmpty = lines[i].trim().length == 0;
 				if(isFirst && isEmpty){
 					continue;
 				}
 				isFirst = false;
 				var lineName = (cnt + 1) + "";
-				while(lineName.length < maxChars){
+				while(lineName.replace("&nbsp;", " ").length < maxChars){
 					lineName = lineName + "&nbsp;";
 				}
 				out.push(lineName + "&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;" + lines[i]);
@@ -41,8 +51,9 @@
 			$(".codeEmbed").each(function(){
 				var $this = $(this);
 				var src = $this.attr("data-src");
-				$.get(src, {}, function(data){
+				$.get((src.substring(-4) === ".res") ? src : src.concat(".res"), {}, function(data){
 					var code = $("<code></code>");
+					code.addClass("codefence");
 					code.text(data);
 					code.attr("data-language", $this.attr("data-language"));
 					var pre = $("<pre></pre>");
@@ -50,6 +61,10 @@
 					pre.appendTo($this);
 					codefenceFunc.call(code.get()[0]);
 				})
+			});
+			$(".hinted").each(function(){
+				var $this = $(this);
+				$this.attr("title", $this.attr("title").replace(/\n[ \t]*/, " ").replace("\\n", "\n"));
 			});
 		});
 	</script>
@@ -138,6 +153,7 @@
 				But before that, we would start by creating <em>a useless plugin that works</em>.
 			</p>
 		</div>
+
 		<div class="tree" data-name="Chapter 1 - A useless plugin that works: No code yet, no trouble yet">
 			<div class="tree" data-name="Basic tools">
 				It is hilarious for many times someone asks me to teach him/her plugin development, and after half an
@@ -345,6 +361,7 @@
 				</p>
 			</div>
 		</div>
+
 		<div class="tree" data-name="Chapter 2 - A useless plugin that works: Some code, but just copy">
 			<p>
 				I have already explained about the meaning of namespaces and classes in the previous chapter -
@@ -360,10 +377,85 @@
 			<div class="tree" data-name="Dummy class">
 				<p>Hold your breath and scroll through all these.</p>
 				<div class="codeEmbed" data-src="../resources/dummy.php" data-language="php"></div>
-				<p>STOP. Did I tell you to copy? Oh, did I say "just copy"? Forget that. Don't copy. Instead, try to
-					understand it and write it when you know what you are writing.</p>
+				<p><strong>STOP</strong>. Did I tell you to copy? Oh, did I say "just copy"? Forget that. Don't copy.
+					Instead, try to understand it and write it when you know what you are writing.</p>
+				<div class="tree" data-name="<?php">
+					<p>
+						This line, <code class="code">&lt;?php</code>, seriously does nothing at all. It doesn't help
+						you in any ways. It is only here to tell people that this is a PHP file.
+					</p>
+					<p>
+						Sadly, the human race is the best species at finding trouble for themselves. We <em>must</em>
+						put this line at the <em>very beginning</em> of <em>every</em> PHP file, and better on an
+						independent line.
+					</p>
+				</div>
+				<div class="tree" data-name="The empty lines">
+					<p>
+						Yes. Honestly. These lines are purely decorative. You can add spaces and tabs and break code
+						into new lines <em>literally anywhere</em> in your PHP file (but after the
+						<code class="code">&lt;?php</code> line!), as long as they don't cut one word into two.
+						(But it is not reasonable to change <code class="code">function</code> into
+						<code class="code">fun ct ion</code>, is it?)
+					</p>
+					<p>
+						Nevertheless, programmers have a general habit of talking things in terms of "lines", but when
+						we talk about a "line" of code, we generally refer to a <em>statement</em>. I will explain more
+						about what a statement is later.
+					</p>
+				</div>
+				<div class="tree" data-name="namespace">
+					<p>
+						This is pretty obvious. When discussing the <code class="code">main</code> attribute in our
+						<code class="code">plugin.yml</code>, we have already mentioned that the namespace of this
+						class is <code class="code">FirstPlugin</code>.
+					</p>
+					<p>
+						We have to <em>declare</em> the namespace in every PHP file, unless it doesn't have a namespace
+						(but this SHOULD NOT happen in a plugin!). As you can observe, the syntax to declare a namespace
+						is:
+					</p>
+					<pre class="code codefence" data-language="php">namespace namespace_for_this_file;</pre>
+					<p>
+						<code class="code">namespace_for_this_file</code> should be the whole namespace, including the
+						backslashes (<code class="code">\</code>) and the subnamespaces.
+					</p>
+					<p>
+						Don't forget the semicolon at the end. A rule for PHP is that all statements would end with
+						<code class="code">;</code> (semicolons), unless they end with a <code class="code">{</code>,
+						then enclose other lines of code, and finally a <code class="code">}</code>. (Of course, except
+						<code class="code">&lt;?php</code>, which is not code at all)
+					</p>
+				</div>
+				<div class="tree" data-name="`use` statements">
+					<p>
+						There are two types of <code class="code">use</code> statements:
+					</p>
+					<pre><code class="codefence" data-language="php">use Fully\Qualified\ClassName;</code></pre>
+					<pre><code class="codefence"
+					           data-language="php">use Fully\Qualified\ClassName as AnAlias;</code></pre>
+					Quite self-explanatory, isn't it?
+					<p>Actually, the first type is just a simplified form of the second type. We can change the first
+						line into:</p>
+					<pre><code class="codefence"
+					           data-language="php">use Fully\Qualified\ClassName as ClassName;</code></pre>
+					<p>They basically mean the same thing.</p>
+					<p class="note">OK. But what are <code class="code">use</code> statements for?</p>
+					<p>
+						<code class="code">use</code> statements tells the <span class="hinted" title=
+							"The part of the server that reads your code and turns it intosignals that it internally
+							understands">PHP compiler</span> that when you later say
+						<code class="code">AnAlias</code> in this file, you are talking about
+						<code class="code">Fully\Qualified\ClassName</code>. In this way, even though the namespace is
+						very long, we can <code class="code">use</code> the class as a short alias. If you don't say
+						<code class=code">as</code> what, as in the first type, the PHP compiler will use the
+						<em>simple class name</em> as the
+					</p>
+					<p class="note">Pro tip: apart from class names, use statements can also register aliases </p>
+				</div>
 			</div>
 		</div>
+
 		<div class="tree" data-name="Chapter &infin; - Contact">
 			<div class="tree" data-name="IRC"><p>
 				Server: chat.freenode.net:6667<br>
@@ -377,7 +469,13 @@
 				</a>
 			</div>
 		</div>
+
+		<div class="tree" data-name="Chapter &infin;+1 - Credits">
+			This webpage uses the <a href="https://highlightjs.org"><code class="code">highlight.js</code> library</a>
+			(and its <em>rainbow</em> theme) for syntax highlighting.
+		</div>
 	</div>
+	<hr>
 	<div class="tree" data-name="Read in another language">
 		<iframe src="../" style="width: 100%"></iframe>
 	</div>
