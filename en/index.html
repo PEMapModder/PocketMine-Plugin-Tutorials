@@ -401,8 +401,10 @@
 			<div class="tree" data-name="Dummy class">
 				<p>Hold your breath and scroll through all these.</p>
 				<div class="codeEmbed" data-src="../resources/dummy.php" data-language="php"></div>
-				<p><strong>STOP</strong>. Did I tell you to copy? Oh, did I say "just copy"? Forget that. Don't copy.
-					Instead, try to understand it and write it when you know what you are writing.</p>
+				<p>
+					<strong>STOP</strong>. Don't copy it into your file. Oh, did I say "just copy"? Forget that.
+					Instead, try to understand it and write it yourself when you know what you are writing.
+				</p>
 				<div class="tree" data-name="<?php">
 					<p>
 						This line, <code class="code">&lt;?php</code>, seriously does nothing at all. It doesn't help
@@ -495,8 +497,14 @@
 						Remember that <code class="code">use</code> statements must be directly after the
 						<code class="code">namespace</code> statement.
 					</p>
-					<p class="note">Pro tip: apart from class names, use statements can also register aliases for
-						namespaces. This is handy when you are using a lot of classes from that namespace.</p>
+					<p class="note">
+						Pro tip: apart from class names, use statements can also register aliases for namespaces. This
+						is handy when you are using a lot of classes from that namespace.
+					</p>
+					<p class="note">
+						For convenience, I am going to refer <code class="code">use</code> statements as "<span
+							class="hinted" title="Its counterpart in Java is 'import'">imports</span>" in the future.
+					</p>
 				</div>
 				<div class="tree" data-name="Class declaration">
 					<p>
@@ -581,11 +589,42 @@ group_type{
 					<p>This was our <code class="code">class</code> statement group:</p>
 					<pre class="codefence" data-language="php">
 class FirstPlugin extends PluginBase{
-	public function abc(){
-		def;
-	}
+	# some code was here
 }
 					</pre>
+					<p>
+						This <em>declares</em> a <em>class</em> called <code class="code">FirstPlugin</code>. we have
+						previously decided that our fully-qualified class name should be <code
+							class="code">FirstPlugin\FirstPlugin</code>, where the first <code
+							class="code">FirstPlugin</code> is the namespace and the second <code
+							class="code">FirstPlugin</code>
+						is the simple class name. We have already declared the namespace for this file on line 3, so we
+						don't need to mention it again.
+					</p>
+					<p>
+						The next part of this line says that the class <code class="code">FirstPlugin</code>
+						<em>extends</em> <code class="code">PluginBase</code>. What does that mean?<br>
+						Remember what we did on line 5? <code class="code">PluginBase</code> actually means
+						<code class="code">pocketmine\plugin\PluginBase</code>, which is a class provided by PocketMine
+						itself.
+					</p>
+					<p class="note">
+						So what? What does this class do? What is meant by <code class="code">extends</code>?
+					</p>
+					<p>
+						The concept of "extend" is more complicated. But for the moment, you can assume that it means
+						that this class is the main class of a plugin.
+					</p>
+				</div>
+				<div class="tree" data-name="Function declaration">
+					<p><code class="code">function</code> is another kind of statement group.</p>
+					<div class="tree" data-name="What is a function?">
+						<p>Have you ever learnt functions from mathematics? OK, if you haven't, learn it now.</p>
+						<p>
+							A function is like a crafting table. You put some ingredients (<em>input</em>)into it, and
+							it will give you some product (<em>output</em>).
+						</p>
+					</div>
 				</div>
 			</div>
 		</div>
