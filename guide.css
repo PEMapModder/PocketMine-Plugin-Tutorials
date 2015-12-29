@@ -13,7 +13,7 @@
 	border-radius: 5px;
 }
 .spoiler{
-	border:        groove;
+	border-left:        groove;
 	border-radius: 10px;
 	padding:       5px;
 }
@@ -35,7 +35,7 @@ p br{
 	width:         500px;
 }
 .code{
-	background-color: #000000;
+	background-color: #404040;
 	color:            #FFFFFF;
 	font-family:      Consolas, "Liberation Mono", Menlo, Courier, monospace;
 	border-radius:    5px;
@@ -44,7 +44,8 @@ p br{
 	/* This font family set is what GitHub uses, and I like it :D */
 }
 .note .code{
-	background-color: #606060;
+	background-color: #A0A0A0;
+	color: #000000;
 }
 .codefence{
 	border-radius: 5px;
@@ -57,17 +58,17 @@ p br{
 	cursor: help;
 }
 li.depth-1{
-	list-style-type: lower-alpha;
+	list-style-type: upper-alpha;
 }
 li.depth-2{
 	list-style-type: decimal;
 }
 li.depth-3{
-	list-style-type: lower-roman;
+	list-style-type: lower-alpha;
 }
 li.depth-4{
-	list-style-type: upper-alpha;
+	list-style-type: upper-roman;
 }
 li.depth-5{
-	list-style-type: upper-roman;
+	list-style-type: lower-roman;
 }

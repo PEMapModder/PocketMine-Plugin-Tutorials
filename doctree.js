@@ -87,7 +87,7 @@ function gotoAnchor(anchor){
 		}
 	});
 	$("html, body").animate({
-		scrollTop: Math.max(0, target.parent().prev().offset().top + window.innerHeight * 0.25)
+		scrollTop: Math.max(0, target.parent().prev().offset().top + window.innerHeight * (-0.1))
 	}, 200, "swing", function(){
 		var header = target.parent().prev();
 		header.css("background-color", "#B11D98");
@@ -96,6 +96,8 @@ function gotoAnchor(anchor){
 		}, 600);
 	});
 }
+
+var hashBlocker = 0;
 
 $(document).ready(function(){
 	var maxDepth = 12;
@@ -164,9 +166,15 @@ $(document).ready(function(){
 //				gotoAnchor(targetName);
 //			});
 	$("#body").css("padding-bottom", $(window).height() / 3);
-	var hash = window.location.hash;
-	if(hash.charAt(0) === "#"){
-		gotoAnchor(hash.substring(1));
-	}
+	var hasher = function(){
+		if(hashBlocker > 0){
+			setTimeout(hasher, 100);
+		}
+		var hash = window.location.hash;
+		if(hash.charAt(0) === "#"){
+			gotoAnchor(hash.substring(1));
+		}
+	};
+	setTimeout(hasher, 100);
 });
 

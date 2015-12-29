@@ -9,22 +9,51 @@
 	<link rel="stylesheet" href="../highlight/rainbow.css">
 	<script src="../doctree.js"></script>
 	<script>
+		console.info("Are you sure you want to play with the JavaScript in this page? It is so messy!");
+		/**
+		 * @param {Number} count
+		 */
+		String.prototype.repeatMe = function(count){
+			for(var out = ""; count > 0; count--){
+				out += this;
+			}
+			return out;
+		};
+		if(typeof String.prototype.startsWith == typeof undefined){
+			/**
+			 * @param {String} prefix
+			 */
+			String.prototype.startsWith = function(prefix){
+				return this.substring(0, prefix.length) == prefix;
+			};
+		}
+		if(typeof String.prototype.endsWith == typeof undefined){
+			/**
+			 * @param {String} prefix
+			 */
+			String.prototype.endsWith = function(prefix){
+				return this.substring(-prefix.length) == prefix;
+			};
+		}
 		var codefenceFunc = function(){
+			var i;
 			var $this = $(this);
-			$this.addClass("lang-" + $this.attr("data-language"));
-			hljs.highlightBlock(this);
-			var html = $this.html();
-			var lines = html.split("\n");
-			var out = [];
-			var maxChars = ("" + lines.length).length;
-			var isFirst = true;
-			var cnt = 0;
-			var minIndent = Number.MAX_VALUE;
-			for(var i = 0; i < lines.length; i++){
-				var line = lines[i];
-				if(line.length == 0){
-					continue;
+			var text = $this.html();
+			var lines = text.split("\n");
+			for(var firstRealLine = 0; firstRealLine < lines.length; firstRealLine++){
+				if(lines[firstRealLine].replace("\t", "") != ""){
+					break;
 				}
+			}
+			for(var lastRealLine = lines.length - 1; lastRealLine >= 0; lastRealLine--){
+				if(lines[lastRealLine].replace(/\t/g, "") != ""){
+					break;
+				}
+			}
+			lines = lines.slice(firstRealLine, lastRealLine + 1);
+			var minIndent = Number.MAX_VALUE;
+			for(i = 0; i < lines.length; i++){
+				var line = lines[i];
 				var indent = 0;
 				while(line.startsWith("\t")){
 					indent++;
@@ -33,27 +62,18 @@
 				minIndent = Math.min(minIndent, indent);
 			}
 			for(i = 0; i < lines.length; i++){
-				var isEmpty = lines[i].trim().length == 0;
-				if(isFirst && isEmpty){
-					continue;
-				}
-				isFirst = false;
-				var lineName = (cnt + 1) + "";
-				while(lineName.replace("&nbsp;", " ").length < maxChars){
-					lineName = lineName + "&nbsp;";
-				}
-				out.push(lineName + "&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;" + lines[i].substring(minIndent));
-				cnt++;
+				lines[i] = lines[i].substring(minIndent).replace("\t", "&nbsp;".repeatMe(8));
 			}
-			if(out.length > 1){
-				$this.html(out.join("\n"));
-			}
+			$this.html(lines.join("\n"));
+			$this.addClass("lang-" + $this.attr("data-language"));
+			hljs.highlightBlock(this);
 		};
 		$(document).ready(function(){
 			$(".codefence").each(codefenceFunc);
 			$(".codeEmbed").each(function(){
 				var $this = $(this);
 				var src = $this.attr("data-src");
+				hashBlocker++;
 				$.get((src.substring(-4) === ".res") ? src : src.concat(".res"), {}, function(data){
 					var code = $("<code></code>");
 					code.addClass("codefence");
@@ -63,11 +83,12 @@
 					code.appendTo(pre);
 					pre.appendTo($this);
 					codefenceFunc.call(code.get()[0]);
+					hashBlocker--;
 				})
 			});
 			$(".hinted").each(function(){
 				var $this = $(this);
-				$this.attr("title", $this.attr("title").replace(/\n[ \t]*/, " ").replace("\\n", "\n"));
+				$this.attr("title", $this.attr("title").replace(/\n[ \t]*/g, " ").replace(/\\n/g, "\n"));
 			});
 		});
 	</script>
@@ -429,6 +450,10 @@
 						then enclose other lines of code, and finally a <code class="code">}</code>. (Of course, except
 						<code class="code">&lt;?php</code>, which is not code at all)
 					</p>
+					<p>'
+						Keep in mind that the namespace statement <strong>must</strong> be the very first statement in
+						every PHP file (of course after <code>&lt;?php</code>)
+					</p>
 				</div>
 				<div class="tree" data-name="`use` statements">
 					<p>
@@ -437,9 +462,8 @@
 					<pre><code class="codefence" data-language="php">use Fully\Qualified\ClassName;</code></pre>
 					<pre><code class="codefence"
 					           data-language="php">use Fully\Qualified\ClassName as AnAlias;</code></pre>
-					Quite self-explanatory, isn't it?
-					<p>Actually, the first type is just a simplified form of the second type. We can change the first
-						line into:</p>
+					<p>Quite self-expanatory, isn't it? Actually, the first type is just a simplified form of the second
+						type. We can change the first line into:</p>
 					<pre><code class="codefence"
 					           data-language="php">use Fully\Qualified\ClassName as ClassName;</code></pre>
 					<p>They basically mean the same thing.</p>
@@ -452,9 +476,116 @@
 						<code class="code">Fully\Qualified\ClassName</code>. In this way, even though the namespace is
 						very long, we can <code class="code">use</code> the class as a short alias. If you don't say
 						<code class=code">as</code> what, as in the first type, the PHP compiler will use the
-						<em>simple class name</em> as the
+						<em>simple class name</em> as the alias. In fact, programmers usually only use the first type to
+						<span class="hinted" title="What is the sense of this?\n\nuse Space\Foo as Bar;\nuse Space\Bar as
+						Foo;">avoid confusion</span>, unless they are coding something real quickly and short and use
+						aliases to <span class="hinted" title="use pocketmine\utils\TextFormat as TF;">shorten the class
+						name</span> (but don't do this in code where you expect other people to read, or yourself to
+						read after a few months - people will have a hard time understanding it).
 					</p>
-					<p class="note">Pro tip: apart from class names, use statements can also register aliases </p>
+					<p>In the dummy class above, we used:</p>
+					<pre><code class="codefence" data-language="php">use pocketmine\plugin\PluginBase;</code></pre>
+					<p>
+						On line 7, we mentioned <code class="code">PluginBase</code>, but because of the
+						<code class="code">use</code> statement from line 5, it actually means
+						<code class="code">pocketmine\plugin\PluginBase</code> rather than merely
+						<code class="code">PluginBase</code>.
+					</p>
+					<p>
+						Remember that <code class="code">use</code> statements must be directly after the
+						<code class="code">namespace</code> statement.
+					</p>
+					<p class="note">Pro tip: apart from class names, use statements can also register aliases for
+						namespaces. This is handy when you are using a lot of classes from that namespace.</p>
+				</div>
+				<div class="tree" data-name="Class declaration">
+					<p>
+						Now, we have finally come to the most important part of our code. (Actually, the only part that
+						does something meaningful).
+					</p>
+					<p>
+						Before I start explaining what this line (line 7) does, let's have an overview on the syntax of
+						the PHP language. Yes, an overview, a very brief and general one. Really general one, you'd
+						probably think that this is useless, but it lets you automatically understand a lot of things
+						in the future.
+					</p>
+					<p>Let's look at this text. Don't worry, it is written in English :)</p>
+					<p class="note">
+						When a player moves, if he is not an op, teleport him to jail. Take money from him. Send him a
+						message. When the server stops, if the server owner is not online, notify him. Delete all
+						worlds.
+					</p>
+					<p>
+						This describes what happens in the plugin in English. I hope that you notice the <span
+							class="hinted" title="The meaning of the text can be misunderstood as something different">
+						ambiguity</span> in this text<br>
+						I said "Take money from him.", but does this mean take money from him if he is not an op? Or
+						whenever he moves?<br>
+						"Delete all worlds.", does this happen only if the server owner is not online, or whenever the
+						server stops?<br>
+						To clarify my meaning, let's format my text into this:
+					</p>
+					<pre class="tree no-index note" data-name="Formatted text" style="font-family: inherit;">
+When a player moves:
+{
+	If the player is an op:
+	{
+		Teleport him to jail.
+		Take money from him.
+	}
+	Send him a message.
+}
+When the server stops:
+{
+	If the server owner is not online:
+	{
+		Notify him.
+	}
+	Delete all worlds.
+}
+					</pre>
+					<p>Now, it is crystal clear that I am referring to the things inside the curly braces (<code
+							class="code">{}</code>) when I say "if the player is an op". And as a matter of fact,
+						this is how PHP understands what you say.
+					</p>
+					<div class="tree" data-name="Statements and statement groups">
+						<p>
+							In the PHP syntax, it main consists of two compoenents - <em>statements</em> and <em>statement
+							groups</em>.<br></p>
+						<p>
+							A statement is like a sentence saying what to do, like "Teleport him to jail". Just like how
+							we end every sentence in English with a full stop <code class="code">.</code>, we end every
+							PHP statement with a semicolon <code class="code">;</code>.
+						</p>
+						<p>
+							A statement group consists of a line that explains what this statement group is about, then
+							followed by a group of statements. For example, in the text above, "When the server stops"
+							explains what the following group of statements is about.<br>
+							Yes, a statement group is a statement too. Therefore, we can have a statement group inside a
+							statement group.<br>
+							Usually, a statement group looks like this:
+						</p>
+						<pre class="codefence" data-language="php">
+group_type{
+	many statements;
+	and nested statement groups{
+		here;
+	}
+}
+						</pre>
+						<p>
+							Sometimes, <code class="code">group_type</code> can contain more information than merely the
+							group type. Let's go back to our dummy class for an example.
+						</p>
+					</div>
+					<p>This was our <code class="code">class</code> statement group:</p>
+					<pre class="codefence" data-language="php">
+class FirstPlugin extends PluginBase{
+	public function abc(){
+		def;
+	}
+}
+					</pre>
 				</div>
 			</div>
 		</div>
@@ -471,11 +602,18 @@
 					     alt="Join the chat at https://gitter.im/PEMapModder/PocketMine-Plugin-Tutorials">
 				</a>
 			</div>
+			<div class="tree" data-name="GitHub Source">
+				<p>Please create a pull request on GitHub if you found mistakes in this webpage.</p>
+				<a href="https://github.com/PEMapModder/PocketMine-Plugin-Tutorials"></a>
+			</div>
 		</div>
 
 		<div class="tree" data-name="Chapter &infin;+1 - Credits">
-			This webpage uses the <a href="https://highlightjs.org"><code class="code">highlight.js</code> library</a>
-			(and its <em>rainbow</em> theme) for syntax highlighting.
+			<p>This page is mainly authored by <a href="https://github.com/PEMapModder">PEMapModder</a>,</p>
+			<p>
+				This webpage uses the <a href="https://highlightjs.org"><code class="code">highlight.js</code>
+				library</a> (and its <em>rainbow</em> theme) for syntax highlighting.
+			</p>
 		</div>
 	</div>
 	<hr>
