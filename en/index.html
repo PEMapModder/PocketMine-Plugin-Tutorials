@@ -613,18 +613,51 @@ class FirstPlugin extends PluginBase{
 					</p>
 					<p>
 						The concept of "extend" is more complicated. But for the moment, you can assume that it means
-						that this class is the main class of a plugin.
+						that this class is the main class of a plugin.</p>
+					<p>
+						There are two types of statements inside a class. They are <em>class properties</em> and
+						<em>functions</em>. Class properties are the "memory" of a class, but you can ignore that for
+						the moment. We are going to talk about functions first.
 					</p>
 				</div>
 				<div class="tree" data-name="Function declaration">
-					<p><code class="code">function</code> is another kind of statement group.</p>
+					<p>
+						<code class="code">function</code> is another kind of statement group. It declares a
+						<em>function</em>.
+					</p>
 					<div class="tree" data-name="What is a function?">
 						<p>Have you ever learnt functions from mathematics? OK, if you haven't, learn it now.</p>
 						<p>
-							A function is like a crafting table. You put some ingredients (<em>input</em>)into it, and
-							it will give you some product (<em>output</em>).
+							A function is like a crafting table. You add ingredients (<em>parameters/arguments</em>)
+							into it, and it will give you some product (<em>return value</em>). Furthermore, the
+							<em>order</em> of how you put the input matters.<br>
+							For example, you have three diamonds and two sticks. If you put the three diamonds on the
+							top, you get a diamond pickaxe. But if you put one diamond on the side of the middle, you
+							get a diamond axe.<br>
+							The same thing goes to functions. A function accepts some arguments (sometimes none,
+							though). It expects each argument to be something. For example, a function that sets a block
+							in a world would accept two arguments, the first argument being the position to change, and
+							the second argument being the type of block to change into.<br>
+							Functions are also like commands. Say, the <code class="code">/effect</code> command. You
+							have to provide a player in the first argument. The second argument is the effect type. You
+							can optionally also provide the third and fourth argument for duration and amplitude, but
+							the command will assume default values for you if you didn't provide them.<br>
 						</p>
 					</div>
+					<p>
+						Just like commands, apart from arguments and return values, a function also has a <em>name</em>,
+						<em>description</em> and <em>permission</em>, although we instead call description
+						<em>documentation</em> and permission <em>visibility</em>. However, most of the time, we don't
+						add documentation to the function.<br>
+						The function's name has the same rules as classes, except that it starts with a small letter
+						instead of a capital letter. That is, we use <code class="code">camelCase</code> rather than
+						<code class="code">PascalCase</code>.<br>
+						There are three types of <em>visibility</em> for a function, namely <em>public</em>,
+						<em>protected</em> and <em>private</em>. Public functions can be used from anywhere. Private
+						functions can only be used when you are writing code from that class. As for protected
+						functions, they are like private functions, but also accessible by <em>subclasses</em>. What are
+						subclasses? Just forget that, too complicated at the moment.
+					</p>
 				</div>
 			</div>
 		</div>
