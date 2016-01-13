@@ -647,16 +647,42 @@ class FirstPlugin extends PluginBase{
 					<p>
 						Just like commands, apart from arguments and return values, a function also has a <em>name</em>,
 						<em>description</em> and <em>permission</em>, although we instead call description
-						<em>documentation</em> and permission <em>visibility</em>. However, most of the time, we don't
-						add documentation to the function.<br>
-						The function's name has the same rules as classes, except that it starts with a small letter
+						<em>documentation</em> and permission <em>visibility</em>.<br>
+						The function's <strong>name</strong> has the same rules as classes, except that it starts with a
+						small letter
 						instead of a capital letter. That is, we use <code class="code">camelCase</code> rather than
 						<code class="code">PascalCase</code>.<br>
-						There are three types of <em>visibility</em> for a function, namely <em>public</em>,
-						<em>protected</em> and <em>private</em>. Public functions can be used from anywhere. Private
-						functions can only be used when you are writing code from that class. As for protected
-						functions, they are like private functions, but also accessible by <em>subclasses</em>. What are
-						subclasses? Just forget that, too complicated at the moment.
+						There are three types of <strong>visibility</strong> for a function, namely <em>public</em>,
+						<em>protected</em> and <em>private</em>. Public functions can be used from <span
+							class="hinted" title="Don't underestimate it! You'll find out that this is literally
+							anywhere, any plugins, anyone, any code on the server!">anywhere</span>. Private functions
+						can only be used when you are writing code from that class. As for protected functions, they are
+						like private functions, but also accessible by <em>subclasses</em>. What are subclasses? You
+						won't need to know that until you are making really complicated or high-quality plugins (e.g.
+						SimpleAuth).<br>
+					</p>
+					<p class="note">
+						<span class="hinted" title="Actually, in PocketMine plugins all functions should
+						be inside classes!">When a function is inside a class</span>, we also call it a "class method".
+						But let's call it "function" to avoid confusion.
+					</p>
+					<p>As you may have already noticed, this is the syntax of declaring a function:</p>
+					<pre class="codefence" data-language="php">
+						<em>function_visibility</em> function <em>function_name</em>(<em>arguments</em>){
+							<em>code_inside_the_function</em>
+						}
+					</pre>
+					<p>For instance:</p>
+					<pre class="codefence" data-language="php">
+						public function myFunction($arg1, $arg2){
+							// some code here
+						}
+					</pre>
+					<p>
+						You might be asking what the <code class="code">//</code> means. It is the <em>line comment
+						symbol</em>. This means that everything on that line after the <code class="code">//</code> will
+						be ignored. This is useful when you want other people, or yourself a few months (or a few days)
+						later to easily understand what you are writing.
 					</p>
 				</div>
 			</div>
