@@ -169,6 +169,7 @@ $(document).ready(function(){
 	var hasher = function(){
 		if(hashBlocker > 0){
 			setTimeout(hasher, 100);
+			return;
 		}
 		var hash = window.location.hash;
 		if(hash.charAt(0) === "#"){
