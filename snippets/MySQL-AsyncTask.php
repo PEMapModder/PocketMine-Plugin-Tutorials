@@ -57,7 +57,7 @@ class DirectMySQLTask extends MySQLTask{
 		}elseif($result === false){
 			$output->resultType = DirectMySQLTaskResult::TYPE_ERROR;
 			$output->content = $m->error;
-		}elseif(in_array(strtoupper(substr(ltrim($query), 0 6)), ["INSERT", "UPDATE"])){
+		}elseif(in_array(strtoupper(substr(ltrim($query), 0, 6)), ["INSERT", "UPDATE"])){
 			$output->resultType = DirectMySQLTaskResult::TYPE_INSERT;
 			$output->content = $m->insert_id;
 		}
