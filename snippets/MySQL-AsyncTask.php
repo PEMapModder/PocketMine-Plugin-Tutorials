@@ -38,7 +38,13 @@ class DirectMySQLTask extends MySQLTask{
 	
 	public function onRun(){
 		$m = $this->getMysqli();
-		$query = sprintf($this->query, ...unserialize($this->params));
+		$params = unserialize($this->params);
+		foreach($params as &$param){
+			if(is_string($param)){
+				$param = $m->escape_string($param);
+			}
+		}
+		$query = sprintf($this->query, ...unserialize($params));
 		$result = $m->query($query);
 		$output = new DirectMySQLTaskResult;
 		if($result instanceof mysqli_result){
