@@ -44,7 +44,7 @@ class DirectMySQLTask extends MySQLTask{
 				$param = $m->escape_string($param);
 			}
 		}
-		$query = sprintf($this->query, ...unserialize($params));
+		$query = sprintf($this->query, ...$params);
 		$result = $m->query($query);
 		$output = new DirectMySQLTaskResult;
 		if($result instanceof mysqli_result){
